@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "style": "sass --watch src/sass/style.scss src/sass/style.css",
     "dev": "webpack --mode development",
     "prod": "webpack --mode production",
     "start": "webpack serve --open --config ./webpack.config.js --env mode=dev"

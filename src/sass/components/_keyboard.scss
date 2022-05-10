@@ -1,0 +1,54 @@
+.keyboard {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    border: solid 3px black;
+    background-color: #646464;
+    padding: 10px;
+}
+
+.keyboard__line {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 5px;
+}
+
+.keyboard__line:nth-child(1) {
+    color: #bde0fe;
+    & > .key_active {
+        background-color: #bde0fe;
+        color: black;
+    }
+}
+
+.keyboard__line:nth-child(2) {
+    color: #8ac926;
+    & > .key_active {
+        background-color: #8ac926;
+        color: black;
+    }
+}
+
+.keyboard__line:nth-child(3) {
+    color: #f15bb5;
+    & > .key_active {
+        background-color: #f15bb5;
+        color: black;
+    }
+}
+
+.keyboard__line:nth-child(4) {
+    color: #bf0603;
+    & > .key_active {
+        background-color: #bf0603;
+        color: black;
+    }
+}
+
+.keyboard__line:nth-child(5) {
+    color: #eb5e28;
+    & > .key_active {
+        background-color: #eb5e28;
+        color: black;
+    }
+}
