@@ -13,7 +13,7 @@ class Controller {
     window.addEventListener('keyup', this.onKeyUp.bind(this));
     // Caps Lock
     localStorage.setItem('capsLock', '0');
-    this.capsLock = localStorage.getItem('capsLock');
+    localStorage.setItem('capsLockOff', '1');
     // Shift
     localStorage.setItem('shift', '0');
     this.shift = localStorage.getItem('shift');
@@ -83,19 +83,16 @@ class Controller {
       e.preventDefault();
       this.touchSymbol(keyCode);
     }
-    // if (e.code === 'AltRight') {
-    //   e.preventDefault();
-    // }
+
+    if (keyCode === 'CapsLock') {
+      e.preventDefault();
+      this.touchCapsLockDown();
+    }
     return this;
   }
 
   onKeyUp(e) {
     const keyCode = e.code;
-
-    if (keyCode === 'CapsLock') {
-      e.preventDefault();
-      this.touchCapsLock();
-    }
 
     if (keyCode === 'ShiftLeft' || keyCode === 'ShiftRight') {
       e.preventDefault();
@@ -103,12 +100,26 @@ class Controller {
       this.shift = localStorage.getItem('shift');
     }
 
+    if (keyCode === 'CapsLock') {
+      e.preventDefault();
+      this.touchCapsLockUp();
+    }
+
     return this;
   }
 
-  touchCapsLock() {
-    localStorage.setItem('capsLock', +this.capsLock ? '0' : '1');
-    this.capsLock = localStorage.getItem('capsLock');
+  touchCapsLockDown() {
+    const capsLock = +localStorage.getItem('capsLock');
+    const capsLockOff = +localStorage.getItem('capsLockOff');
+    if (capsLockOff === 1) {
+      localStorage.setItem('capsLock', capsLock ? '0' : '1');
+      localStorage.setItem('capsLockOff', '0');
+    }
+    return this;
+  }
+
+  touchCapsLockUp() {
+    localStorage.setItem('capsLockOff', '1');
     return this;
   }
 
@@ -141,7 +152,6 @@ class Controller {
     const endPos = field.selectionEnd;
     let leftStr;
     let rightStr;
-    console.log(startPos, endPos);
     if (startPos - endPos === 0) {
       leftStr = startPos - 1 >= 0 ? `${field.value.slice(0, startPos - 1)}` : '';
       rightStr = `${field.value.slice(endPos)}`;
@@ -171,7 +181,6 @@ class Controller {
     const leftStr = `${field.value.slice(0, startPos)}`;
     const rightStr = `${field.value.slice(endPos)}`;
     const symbol = `${document.querySelector(`.${code}`).dataset.symbol}`;
-    console.log(symbol);
     field.value = leftStr + symbol + rightStr;
     field.setSelectionRange(startPos + 1, startPos + 1);
     return this;
