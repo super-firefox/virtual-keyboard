@@ -8,24 +8,32 @@ class Controller {
     this.shift = false;
     this.ctrl = false;
     this.win = false;
-    // Text Area
-    this.textArea = new TextArea();
-    this.parrents.append(this.textArea.getField);
-    // Keyboard
-    this.keyboard = new KeyBoard();
-    this.parrents.append(this.keyboard.render());
     // Events
     window.addEventListener('keydown', this.onKeyDown.bind(this));
     window.addEventListener('keyup', this.onKeyUp.bind(this));
     // Caps Lock
     localStorage.setItem('capsLock', '0');
     this.capsLock = localStorage.getItem('capsLock');
-
+    // Shift
     localStorage.setItem('shift', '0');
     this.shift = localStorage.getItem('shift');
   }
 
   main() {
+    // Title
+    const title = document.createElement('h1');
+    title.textContent = 'Virtual Keyboard';
+    this.parrents.append(title);
+    // Text Area
+    const textArea = new TextArea();
+    this.parrents.append(textArea.getField);
+    // Keyboard
+    const keyboard = new KeyBoard();
+    this.parrents.append(keyboard.render());
+    // Subtitle
+    const subtitle = document.createElement('h2');
+    subtitle.textContent = 'The keyboard was created in the operating system Windows 10.\nTo switch the language combination: "shift + alt" or "win + space"';
+    this.parrents.append(subtitle);
     return this;
   }
 
