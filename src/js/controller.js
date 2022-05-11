@@ -42,7 +42,7 @@ class Controller {
     this.parrents.append(keyboard.render());
     // Subtitle
     const subtitle = document.createElement('h2');
-    subtitle.textContent = 'The keyboard was created in the operating system Windows 10.\nTo switch the language combination: "shift + alt" or "win + space"';
+    subtitle.textContent = 'The keyboard was created in the operating system Windows 10.\nTo switch the language combination: "shift + alt"';
     this.parrents.append(subtitle);
     return this;
   }
