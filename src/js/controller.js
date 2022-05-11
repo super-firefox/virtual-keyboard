@@ -86,6 +86,7 @@ class Controller {
       || keyCode.match(/Slash/)
       || keyCode.match(/BracketLeft/)
       || keyCode.match(/BracketRight/)
+      || keyCode.match(/Space/)
     ) {
       this.touchSymbol(keyCode);
     }
