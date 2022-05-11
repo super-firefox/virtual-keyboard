@@ -128,13 +128,7 @@ class Key {
       || name.match(/Equal/)
       || name.match(/Backslash/)
       || name.match(/Backquote/)
-      || name.match(/Semicolon/)
-      || name.match(/Quote/)
-      || name.match(/Comma/)
-      || name.match(/Period/)
       || name.match(/Slash/)
-      || name.match(/BracketLeft/)
-      || name.match(/BracketRight/)
     ) {
       return true;
     }

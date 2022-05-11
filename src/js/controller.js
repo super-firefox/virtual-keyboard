@@ -1,6 +1,9 @@
 import KeyBoard from './keyboard';
 import TextArea from './textArea';
 
+const DEFAULT_LANG = 'eng';
+const SECOND_LANG = 'rus';
+
 class Controller {
   constructor(parrentsClass = 'body') {
     this.parrentsClass = parrentsClass;
@@ -17,6 +20,13 @@ class Controller {
     // Shift
     localStorage.setItem('shift', '0');
     this.shift = localStorage.getItem('shift');
+    // Languege
+    if (!localStorage.getItem('lang')) {
+      localStorage.setItem('lang', DEFAULT_LANG);
+    }
+    this.lang = localStorage.getItem('lang');
+    // Radio button for change languege-button
+    localStorage.setItem('langOn', '0');
   }
 
   main() {
@@ -88,6 +98,11 @@ class Controller {
       e.preventDefault();
       this.touchCapsLockDown();
     }
+
+    // Change language
+    if (e.altKey && e.shiftKey) {
+      this.changeLangDown();
+    }
     return this;
   }
 
@@ -105,6 +120,28 @@ class Controller {
       this.touchCapsLockUp();
     }
 
+    // Change language
+    if (!e.altKey || !e.shiftKey) {
+      this.changeLangUp();
+    }
+
+    return this;
+  }
+
+  changeLangDown() {
+    const langOn = +localStorage.getItem('langOn');
+    if (langOn === 0) {
+      localStorage.setItem(
+        'lang',
+        localStorage.getItem('lang') === DEFAULT_LANG ? SECOND_LANG : DEFAULT_LANG,
+      );
+      localStorage.setItem('langOn', '1');
+    }
+    return this;
+  }
+
+  changeLangUp() {
+    localStorage.setItem('langOn', '0');
     return this;
   }
 

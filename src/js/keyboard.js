@@ -4,17 +4,11 @@ import TextArea from './textArea';
 
 const ROWS = 15;
 const COLS = 150;
-const DEFAULT_LANG = 'eng';
 
 class KeyBoard {
   constructor(data = ARRAY_KEYS) {
     this.data = data;
     this.textArea = new TextArea('field', COLS, ROWS);
-
-    if (!localStorage.getItem('lang')) {
-      localStorage.setItem('lang', DEFAULT_LANG);
-    }
-    this.lang = localStorage.getItem('lang');
   }
 
   createKeys() {
