@@ -51,28 +51,25 @@ class Controller {
     const field = document.querySelector('.field');
     field.focus();
     const keyCode = e.code;
+    e.preventDefault();
+
     if (keyCode === 'Backspace') {
-      e.preventDefault();
       this.touchBackspace(e);
     }
     if (keyCode === 'ShiftLeft' || keyCode === 'ShiftRight') {
-      e.preventDefault();
       localStorage.setItem('shift', '0');
       this.shift = localStorage.getItem('shift');
     }
 
     if (keyCode === 'Tab') {
-      e.preventDefault();
       this.touchTab();
     }
 
     if (keyCode === 'Delete') {
-      e.preventDefault();
       this.touchDelete();
     }
 
     if (keyCode.match(/Enter/)) {
-      e.preventDefault();
       this.touchEnter(e);
     }
 
@@ -90,16 +87,15 @@ class Controller {
       || keyCode.match(/BracketLeft/)
       || keyCode.match(/BracketRight/)
     ) {
-      e.preventDefault();
       this.touchSymbol(keyCode);
     }
 
     if (keyCode === 'CapsLock') {
-      e.preventDefault();
       this.touchCapsLockDown();
     }
 
     // Change language
+
     if (e.altKey && e.shiftKey) {
       this.changeLangDown();
     }
@@ -108,15 +104,14 @@ class Controller {
 
   onKeyUp(e) {
     const keyCode = e.code;
+    e.preventDefault();
 
     if (keyCode === 'ShiftLeft' || keyCode === 'ShiftRight') {
-      e.preventDefault();
       localStorage.setItem('shift', '1');
       this.shift = localStorage.getItem('shift');
     }
 
     if (keyCode === 'CapsLock') {
-      e.preventDefault();
       this.touchCapsLockUp();
     }
 
