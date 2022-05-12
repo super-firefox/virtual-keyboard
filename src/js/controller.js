@@ -51,7 +51,10 @@ class Controller {
     const field = document.querySelector('.field');
     field.focus();
     const keyCode = e.code;
-    e.preventDefault();
+
+    if (keyCode !== 'ArrowUp' && keyCode !== 'ArrowDown') {
+      e.preventDefault();
+    }
 
     if (keyCode === 'Backspace') {
       this.touchBackspace(e);
@@ -96,16 +99,27 @@ class Controller {
     }
 
     // Change language
-
     if (e.altKey && e.shiftKey) {
       this.changeLangDown();
     }
+
+    // Cursor point
+    if (keyCode === 'ArrowLeft') {
+      this.touchArrowLeft();
+    }
+
+    if (keyCode === 'ArrowRight') {
+      this.touchArrowRight();
+    }
+
     return this;
   }
 
   onKeyUp(e) {
     const keyCode = e.code;
-    e.preventDefault();
+    if (keyCode !== 'ArrowUp' && keyCode !== 'ArrowDown') {
+      e.preventDefault();
+    }
 
     if (keyCode === 'ShiftLeft' || keyCode === 'ShiftRight') {
       localStorage.setItem('shift', '1');
@@ -133,6 +147,22 @@ class Controller {
       );
       localStorage.setItem('langOn', '1');
     }
+    return this;
+  }
+
+  touchArrowLeft() {
+    const field = document.querySelector('.field');
+    const startPos = field.selectionStart;
+    const newStartPos = startPos - 1 >= 0 ? startPos - 1 : 0;
+    field.setSelectionRange(newStartPos, newStartPos);
+    return this;
+  }
+
+  touchArrowRight() {
+    const field = document.querySelector('.field');
+    const startPos = field.selectionStart;
+    const newStartPos = startPos + 1 <= field.value.length ? startPos + 1 : startPos;
+    field.setSelectionRange(newStartPos, newStartPos);
     return this;
   }
 

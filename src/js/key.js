@@ -7,7 +7,9 @@ class Key {
   }
 
   onKeyDown(e) {
-    e.preventDefault();
+    if (e.code !== 'ArrowUp' && e.code !== 'ArrowDown') {
+      e.preventDefault();
+    }
 
     if (e.code === this.keyData.className) {
       this.btn.classList.add('key_active');
@@ -24,7 +26,9 @@ class Key {
   }
 
   onKeyUp(e) {
-    e.preventDefault();
+    if (e.code !== 'ArrowUp' && e.code !== 'ArrowDown') {
+      e.preventDefault();
+    }
 
     if (e.code === this.keyData.className && e.code !== 'CapsLock') {
       this.btn.classList.remove('key_active');
