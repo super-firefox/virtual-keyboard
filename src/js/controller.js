@@ -14,6 +14,8 @@ class Controller {
     // Events
     window.addEventListener('keydown', this.onKeyDown.bind(this));
     window.addEventListener('keyup', this.onKeyUp.bind(this));
+    window.addEventListener('click', this.onKeyDown.bind(this));
+    window.addEventListener('mouseup', this.onKeyUp.bind(this));
     // Caps Lock
     localStorage.setItem('capsLock', '0');
     localStorage.setItem('capsLockOff', '1');
@@ -47,17 +49,32 @@ class Controller {
     return this;
   }
 
+  static getCode(e) {
+    if (e.code) {
+      return e.code;
+    }
+
+    if (e.target.closest('div[data-name]')) {
+      return e.target.closest('div[data-name]').dataset.name;
+    }
+    return null;
+  }
+
   onKeyDown(e) {
+    // console.log(e.type, e.code);
     const field = document.querySelector('.field');
     field.focus();
-    const keyCode = e.code;
+    const keyCode = this.constructor.getCode(e);
+    if (!keyCode) {
+      return this;
+    }
 
     if (keyCode !== 'ArrowUp' && keyCode !== 'ArrowDown') {
       e.preventDefault();
     }
 
     if (keyCode === 'Backspace') {
-      this.touchBackspace(e);
+      this.touchBackspace();
     }
     if (keyCode === 'ShiftLeft' || keyCode === 'ShiftRight') {
       localStorage.setItem('shift', '0');
@@ -73,7 +90,7 @@ class Controller {
     }
 
     if (keyCode.match(/Enter/)) {
-      this.touchEnter(e);
+      this.touchEnter();
     }
 
     if (keyCode.match(/Digit\d/i)
@@ -116,7 +133,11 @@ class Controller {
   }
 
   onKeyUp(e) {
-    const keyCode = e.code;
+    const keyCode = this.constructor.getCode(e);
+    if (!keyCode) {
+      return this;
+    }
+
     if (keyCode !== 'ArrowUp' && keyCode !== 'ArrowDown') {
       e.preventDefault();
     }

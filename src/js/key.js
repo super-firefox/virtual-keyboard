@@ -3,43 +3,66 @@ class Key {
     this.keyData = keyData;
     this.btn = document.createElement('div');
     window.addEventListener('keydown', this.onKeyDown.bind(this));
+    window.addEventListener('mousedown', this.onKeyDown.bind(this));
     window.addEventListener('keyup', this.onKeyUp.bind(this));
+    window.addEventListener('mouseup', this.onKeyUp.bind(this));
+  }
+
+  static getCode(e) {
+    if (e.code) {
+      return e.code;
+    }
+
+    if (e.target.closest('div[data-name]')) {
+      return e.target.closest('div[data-name]').dataset.name;
+    }
+    return null;
   }
 
   onKeyDown(e) {
-    if (e.code !== 'ArrowUp' && e.code !== 'ArrowDown') {
+    const keyCode = this.constructor.getCode(e);
+    if (!keyCode) {
+      return this;
+    }
+
+    if (keyCode !== 'ArrowUp' && keyCode !== 'ArrowDown') {
       e.preventDefault();
     }
 
-    if (e.code === this.keyData.className) {
+    if (keyCode === this.keyData.className) {
       this.btn.classList.add('key_active');
     }
 
-    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-      this.updataKeyShift(e);
+    if (keyCode === 'ShiftLeft' || keyCode === 'ShiftRight') {
+      this.updataKeyShift();
     }
 
-    if (e.code === 'CapsLock') {
-      this.updataKeyCaps(e);
+    if (keyCode === 'CapsLock') {
+      this.updataKeyCaps();
     }
     return this;
   }
 
   onKeyUp(e) {
-    if (e.code !== 'ArrowUp' && e.code !== 'ArrowDown') {
+    const keyCode = this.constructor.getCode(e);
+    if (!keyCode) {
+      return this;
+    }
+
+    if (keyCode !== 'ArrowUp' && keyCode !== 'ArrowDown') {
       e.preventDefault();
     }
 
-    if (e.code === this.keyData.className && e.code !== 'CapsLock') {
+    if (keyCode === this.keyData.className && keyCode !== 'CapsLock') {
       this.btn.classList.remove('key_active');
     }
 
-    if (e.code === 'CapsLock' && !(+localStorage.getItem('capsLock'))) {
+    if (keyCode === 'CapsLock' && !(+localStorage.getItem('capsLock'))) {
       this.btn.classList.remove('key_active');
     }
 
-    if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') {
-      this.updataKeyShiftUp(e);
+    if (keyCode === 'ShiftLeft' || keyCode === 'ShiftRight') {
+      this.updataKeyShiftUp();
     }
     return this;
   }
@@ -99,6 +122,7 @@ class Key {
   // return html element(key)
   render() {
     this.btn.classList.add('key', this.keyData.className);
+    this.btn.setAttribute('data-name', this.keyData.className);
     this.btn.setAttribute('data-symbol', this.getLetter().caseDown);
     if (this.getStatusKey()) {
       this.btn.innerHTML = `
